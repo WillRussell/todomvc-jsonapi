@@ -7,8 +7,10 @@ class Api::V1::TodosController < ApplicationController
 
 	def create
 		@todo = Todo.new(todo_params)
+		
+
 		if @todo.save
-			render json: @todo.as_json, status: :created
+			render json: @todo, status: :created
 		else
 			render json: {errors: @todo.errors}, status: :unprocessable_entity
 		end
@@ -16,12 +18,13 @@ class Api::V1::TodosController < ApplicationController
 
 
 	def update
-		    @todo = Todo.find(params[:id])
+		@todo = Todo.find(params[:id])
 
-    if @todo.update(todo_params)
-    else
-      render json: {errors: @todo.errors}, status: :unprocessable_entity
-    end
+		if @todo.update(todo_params)
+			render json: @todo, status: :ok
+		else
+			render json: {errors: @todo.errors}, status: :unprocessable_entity
+		end
 	end
 
 
